@@ -10,8 +10,14 @@
         <div class="card-body">
             <form method="POST" action="/admin/articles/update">
                 <input type="hidden" name="id" value="<%= article.id %>">
-                <input class="form-control" type="text" name="title" placeholder="Título da categoria" value="<%= article.title %>"><br>
-                <input class="form-control" type="text" name="text" placeholder="Escrevaseu texto aqui" value="<%= article.body %>"><br>
+                <input class="form-control" type="text" name="title" value="<%= article.title %>"><br>
+                <textarea class="form-control" type="text" name="body" value="<%= article.body %>" id="article"></textarea><br>
+                <label>Categoria</label>
+                <select name="category" class="form-control">
+                    <% categories.forEach((category) => { %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                    <% }) %>
+                </select>
                 <button class="btn btn-success">Atualizar</button>
             </form>
         </div>
@@ -19,3 +25,14 @@
 </div>
 
 <%- include ('../../partials/footer.ejs') %>
+
+<script src="/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        language: 'pt_BR',
+        selector: "#article",
+        plugins: [
+            'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
+        ]
+    })
+</script>
