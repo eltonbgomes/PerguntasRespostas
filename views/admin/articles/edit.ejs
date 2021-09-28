@@ -1,0 +1,21 @@
+<%- include ('../../partials/header.ejs') %>
+<%- include ('../../partials/navbar.ejs') %>
+
+<div class="container">
+    <hr>
+    <div class="card">
+        <div class="card-header">
+            <h2>Edição de Artigo</h2>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/admin/articles/update">
+                <input type="hidden" name="id" value="<%= article.id %>">
+                <input class="form-control" type="text" name="title" placeholder="Título da categoria" value="<%= article.title %>"><br>
+                <input class="form-control" type="text" name="text" placeholder="Escrevaseu texto aqui" value="<%= article.body %>"><br>
+                <button class="btn btn-success">Atualizar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include ('../../partials/footer.ejs') %>
