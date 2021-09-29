@@ -11,17 +11,25 @@
             <form method="POST" action="/admin/articles/update">
                 <input type="hidden" name="id" value="<%= article.id %>">
                 <input class="form-control" type="text" name="title" value="<%= article.title %>"><br>
-                <textarea class="form-control" type="text" name="body" value="<%= article.body %>" id="article"></textarea><br>
+                <textarea class="form-control" type="text" name="body" id="article"></textarea><br>
                 <label>Categoria</label>
                 <select name="category" class="form-control">
                     <% categories.forEach((category) => { %>
-                        <option value="<%= category.id %>"><%= category.title %></option>
+                        <% if(category.id == article.categoryId) { %>
+                            <option value="<%= category.id %>" selected><%= category.title %></option>
+                        <% } else { %>
+                            <option value="<%= category.id %>"><%= category.title %></option>
+                        <% } %>
                     <% }) %>
                 </select>
                 <button class="btn btn-success">Atualizar</button>
             </form>
         </div>
     </div>
+</div>
+
+<div id="content" style="display: none">
+    <%- article.body %>
 </div>
 
 <%- include ('../../partials/footer.ejs') %>
@@ -33,6 +41,9 @@
         selector: "#article",
         plugins: [
             'advlist autolink link image lists print preview hr searchreplace wordcount fullscreen insertdatetime media save table paste emoticons'
-        ]
+        ],
+        init_instance_callback: () => {
+            tinymce.get("article").setContent($("#content").html())
+        }
     })
 </script>

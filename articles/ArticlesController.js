@@ -95,4 +95,41 @@ router.post("/admin/articles/update", (req, res) => {
     }
 });
 
+router.get("/articles/page/:pag", (req, res) => {
+    var elements = 4;
+    var page = req.params.pag;
+    var offset = 0;
+
+    if(isNaN(page) || page == 1){
+        offset = 0;
+    }else{
+        offset = elements * (parseInt(page) - 1);
+    }
+    
+    Article.findAndCountAll({
+        limit: elements,
+        offset: offset,
+        order:[
+            ['id', 'DESC']
+        ]
+    }).then(articles => {
+
+        var next;
+        if(offset + elements >= articles.count){
+            next = false;
+        }else{
+            next = true;
+        }
+
+        var result = {
+            page: parseInt(page),
+            next: next,
+            articles: articles
+        }
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page", {result: result, categories: categories});
+        });
+    });
+});
+
 module.exports = router;
